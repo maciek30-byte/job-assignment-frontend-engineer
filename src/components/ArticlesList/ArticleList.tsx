@@ -17,7 +17,6 @@ export const ArticleList = (): JSX.Element => {
         error
     } = useArticles();
 
-
     const observerRef = useInfiniteScroll({
         fetchNextPage,
         hasNextPage,
@@ -31,8 +30,6 @@ export const ArticleList = (): JSX.Element => {
     }
     if (!data) return <Message type="info" message="No articles found" />;
 
-    console.log(data);
-
     return (
         <div>
             {data.pages.map((page) =>
@@ -44,6 +41,7 @@ export const ArticleList = (): JSX.Element => {
                         img={article.author.image || DEFAULT_PLACEHOLDER}
                         author={article.author.username}
                         favoritesCount={article.favoritesCount}
+                        favorited={article.favorited}
                         createdAt={article.createdAt}
                         slug={article.slug}
                     />
@@ -58,4 +56,4 @@ export const ArticleList = (): JSX.Element => {
             </div>
         </div>
     );
-}
+};

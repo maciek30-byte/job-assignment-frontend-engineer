@@ -1,7 +1,7 @@
-import { FavoriteCounter } from 'components/FavoriteCounter/FavoriteCounter';
 import { formatDate } from '../../utils/date';
 import { getUserImage } from 'utils/getUserImage';
 import { useRedirect } from 'hooks/useRedirect';
+import { FavoriteCounterButton } from '../EngagmentButtons/FavoriteCounterButton';
 
 interface ArticleItemProps {
     slug: string;
@@ -10,8 +10,10 @@ interface ArticleItemProps {
     img: string;
     author: string;
     favoritesCount: number;
+    favorited: boolean;
     createdAt: string;
 }
+
 export const ArticleItem = ({
     slug,
     title,
@@ -19,7 +21,8 @@ export const ArticleItem = ({
     img,
     author,
     createdAt,
-    favoritesCount
+    favoritesCount,
+    favorited
 }: ArticleItemProps): JSX.Element => {
     const { redirectTo } = useRedirect();
 
@@ -38,8 +41,11 @@ export const ArticleItem = ({
                     <span className="date">{formatDate(createdAt)}</span>
                 </div>
                 <div className="pull-xs-right">
-                    <FavoriteCounter favoritesCount={favoritesCount} />
-
+                    <FavoriteCounterButton
+                        favoritesCount={favoritesCount}
+                        slug={slug}
+                        favorited={favorited}
+                    />
                 </div>
             </div>
             <h1>{title}</h1>

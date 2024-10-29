@@ -26,12 +26,19 @@ export default function LoginForm(): JSX.Element {
         } catch (error: unknown) {
             if (error && typeof error === 'object' && 'errors' in error) {
                 const loginError = error as LoginError;
-                const errorMessages = Object.entries(loginError.errors)
-                    .map(([key, messages]) => `${key} ${messages.join(', ')}`)
-                    .join('; ');
-                setErrorMessage(errorMessages);
+                // Sprawdzamy różne możliwe formaty błędów autoryzacji
+                if (loginError.errors['email or password'] ||
+                    loginError.errors['unauthorized'] ||
+                    (loginError.errors['email'] && loginError.errors['password'])) {
+                    setErrorMessage('Invalid email or password');
+                } else {
+                    const errorMessages = Object.entries(loginError.errors)
+                        .map(([key, messages]) => `${key} ${messages.join(', ')}`)
+                        .join('; ');
+                    setErrorMessage(errorMessages);
+                }
             } else {
-                setErrorMessage('An unexpected error occurred');
+                setErrorMessage('Unable to connect to the server. Please try again later.');
             }
         }
     };

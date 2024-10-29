@@ -20,7 +20,6 @@ export const AuthorArticlePreviewItem = ({
     author,
 }: AuthorArticlePreviewItemProps): JSX.Element => {
     const { redirectTo } = useRedirect();
-    console.log("this is slug", slug);
     return (
         <div className="article-preview">
             <div className="article-meta">
