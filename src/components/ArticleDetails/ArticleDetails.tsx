@@ -5,7 +5,9 @@ import { ArticlesResponse } from "../../hooks/useArticles";
 import { selectArticleBySlug } from "../../hooks/utils";
 import { formatDate } from "utils/date";
 import { getUserImage } from "utils/getUserImage";
-import { useHistory } from "react-router-dom";
+import { useRedirect } from "hooks/useRedirect";
+import { Message } from "components/shared/Message";
+
 interface ArticleContentProps {
     title: string;
     description: string;
@@ -38,19 +40,11 @@ export const ArticleDetails = (): JSX.Element => {
 
     const data = queryClient.getQueryData<{ pages: ArticlesResponse[] }>(['articles']);
     const article = selectArticleBySlug(data?.pages, slug);
-    console.log(article);
-    const history = useHistory();
 
+    const { redirectTo } = useRedirect();
     if (!article) {
-        return <div>Article not found</div>;
+        return <Message message="Article not found" type="warning" />
     }
-
-
-
-    const handleAuthorClick = () => {
-        console.log("author info name", article.author.username);
-        history.push(`/profile/${article.author.username}`);
-    };
 
     const { title, description, body, author, createdAt, favoritesCount, updatedAt } = article;
 
@@ -60,16 +54,16 @@ export const ArticleDetails = (): JSX.Element => {
             <hr />
             <div className="article-actions">
                 <div className="article-meta">
-                    <a href="/#/profile/ericsimmons">
-                        <img src={getUserImage(author.image)} />
-                    </a>
+
+                    <img src={getUserImage(author.image)} />
+
                     <div className="info">
-                        <a style={{ cursor: "pointer" }} className="author" onClick={handleAuthorClick}>
+                        <a style={{ cursor: "pointer" }} className="author" onClick={() => redirectTo(`/profile/${author.username}`)}>
                             {author.username}
                         </a>
                         <span className="date">{formatDate(createdAt)}</span>
                     </div>
-                    <button className="btn btn-sm btn-outline-secondary">
+                    <button className="btn btn-sm btn-outline-secondary" onClick={() => redirectTo(`/profile/${author.username}`)}>
                         <i className="ion-plus-round" />
                         &nbsp; Follow {author.username}
                     </button>

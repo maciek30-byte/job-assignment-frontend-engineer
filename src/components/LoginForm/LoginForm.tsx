@@ -1,16 +1,17 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext/AuthContext';
 import { useLoginMutation, LoginError } from '../../hooks/useLoginMutation';
 import { NavBar } from '../shared/NavBar';
 import { Footer } from '../shared/Footer';
+import { useRedirect } from '../../hooks/useRedirect';
+import { FormField } from './FormField';
 
 export default function LoginForm(): JSX.Element {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const history = useHistory();
+    const { redirectTo } = useRedirect();
     const { login } = useAuth();
     const loginMutation = useLoginMutation();
 
@@ -21,7 +22,7 @@ export default function LoginForm(): JSX.Element {
         try {
             const response = await loginMutation.mutateAsync({ email, password });
             login(response.user);
-            history.push('/');
+            redirectTo('/');
         } catch (error: unknown) {
             if (error && typeof error === 'object' && 'errors' in error) {
                 const loginError = error as LoginError;
@@ -55,26 +56,24 @@ export default function LoginForm(): JSX.Element {
 
                             <form onSubmit={handleSubmit}>
                                 <fieldset disabled={loginMutation.isLoading}>
-                                    <fieldset className="form-group">
-                                        <input
-                                            className="form-control form-control-lg"
-                                            type="email"
-                                            placeholder="Email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            required
-                                        />
-                                    </fieldset>
-                                    <fieldset className="form-group">
-                                        <input
-                                            className="form-control form-control-lg"
-                                            type="password"
-                                            placeholder="Password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            required
-                                        />
-                                    </fieldset>
+                                    <FormField
+                                        label="Email"
+                                        name="email"
+                                        type="email"
+                                        placeholder="Email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
+                                    <FormField
+                                        label="Password"
+                                        name="password"
+                                        type="password"
+                                        placeholder="Password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    />
                                     <button
                                         className="btn btn-lg btn-primary pull-xs-right"
                                         type="submit"

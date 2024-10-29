@@ -14,10 +14,18 @@ interface AuthContextType {
     logout: () => void;
 }
 
+const testUser: User = {
+    email: 'alice@example.com',
+    token: 'test-token',
+    username: 'Alice',
+    bio: 'Test user bio',
+    image: 'http://i.imgur.com/Qr71crq.jpg',
+}
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }): JSX.Element {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(testUser);
 
     const login = (userData: User) => {
         setUser(userData);

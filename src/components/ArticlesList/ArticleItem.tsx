@@ -1,6 +1,7 @@
+import { FavoriteCounter } from 'components/FavoriteCounter/FavoriteCounter';
 import { formatDate } from '../../utils/date';
-import { useHistory } from 'react-router-dom';
 import { getUserImage } from 'utils/getUserImage';
+import { useRedirect } from 'hooks/useRedirect';
 
 interface ArticleItemProps {
     slug: string;
@@ -18,16 +19,9 @@ export const ArticleItem = ({
     img,
     author,
     createdAt,
+    favoritesCount
 }: ArticleItemProps): JSX.Element => {
-    const history = useHistory();
-
-    const handleArticleClick = () => {
-        history.push(`/${slug}`);
-    };
-
-    const handleAuthorClick = () => {
-        history.push(`/profile/${author}`);
-    };
+    const { redirectTo } = useRedirect();
 
     return (
         <div className="article-preview">
@@ -37,19 +31,20 @@ export const ArticleItem = ({
                     <span
                         style={{ cursor: "pointer" }}
                         className="author"
-                        onClick={handleAuthorClick}
+                        onClick={() => redirectTo(`/profile/${author}`)}
                     >
                         {author}
                     </span>
                     <span className="date">{formatDate(createdAt)}</span>
                 </div>
                 <div className="pull-xs-right">
+                    <FavoriteCounter favoritesCount={favoritesCount} />
 
                 </div>
             </div>
             <h1>{title}</h1>
             <p>{description}</p>
-            <span style={{ cursor: "pointer" }} onClick={handleArticleClick}>
+            <span style={{ cursor: "pointer" }} onClick={() => redirectTo(`/${slug}`)}>
                 Read more...
             </span>
         </div>

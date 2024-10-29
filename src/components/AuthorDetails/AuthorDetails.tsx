@@ -18,6 +18,8 @@ export const AuthorDetails = (): JSX.Element => {
     const author = firstArticle?.author;
 
     if (!author) return <div>No author data available</div>;
+    console.log("params", params.username);
+    console.log("whooleData", data);
 
     return (
         <>
@@ -42,6 +44,7 @@ export const AuthorDetails = (): JSX.Element => {
                                     title={article.title}
                                     description={article.description}
                                     slug={article.slug}
+                                    author={article.author.username}
                                 />
                             ))}
                         </div>

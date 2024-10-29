@@ -8,11 +8,11 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./contexts/AuthContext/AuthContext";
 ReactDOM.render(
   <React.StrictMode>
-
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
-
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
