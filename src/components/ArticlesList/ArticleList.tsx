@@ -1,7 +1,10 @@
-import { useEffect, useRef } from "react";
 import { useArticles } from "../../hooks/useArticles";
 import { ArticleItem } from "./ArticleItem";
 import { DEFAULT_PLACEHOLDER } from "../../utils/getUserImage";
+import { useInfiniteScroll } from "../../hooks/useInfinityScroll";
+import { LoadingSpinner } from "../shared/LoadingSpinner";
+import { ErrorMessage } from "../shared/ErrorMessage";
+import { Message } from "../shared/Message";
 
 export const ArticleList = (): JSX.Element => {
     const {
@@ -14,37 +17,25 @@ export const ArticleList = (): JSX.Element => {
         error
     } = useArticles();
 
-    const observerRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-                    fetchNextPage();
-                }
-            },
-            { threshold: 0.5 }
-        );
+    const observerRef = useInfiniteScroll({
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage
+    });
 
-        if (observerRef.current) {
-            observer.observe(observerRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
-
-
-
-    if (isLoading) return <div>Loading articles...</div>;
+    if (isLoading) return <LoadingSpinner text="Loading articles..." />;
     if (isError) {
         console.error("Error fetching articles:", error);
-        return <div>Error: {error instanceof Error ? error.message : "Unknown error"}</div>;
+        return <ErrorMessage message={error instanceof Error ? error.message : "Unknown error"} />;
     }
-    if (!data) return <div>No articles found</div>;
+    if (!data) return <Message type="info" message="No articles found" />;
+
+    console.log(data);
 
     return (
         <div>
-            {data.pages.map((page) => (
+            {data.pages.map((page) =>
                 page.articles.map((article) => (
                     <ArticleItem
                         key={article.slug}
@@ -57,7 +48,7 @@ export const ArticleList = (): JSX.Element => {
                         slug={article.slug}
                     />
                 ))
-            ))}
+            )}
             <div ref={observerRef} style={{ height: "20px", margin: "20px 0", textAlign: "center" }}>
                 {isFetchingNextPage && (
                     <div className="loading-indicator">

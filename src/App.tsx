@@ -1,5 +1,6 @@
 import { Route, HashRouter as Router, Switch } from "react-router-dom";
 import Profile from "./Profile";
+import LoginForm from "./components/LoginForm/LoginForm";
 
 
 import ArticlesPage from "pages/ArticlesPage";
@@ -11,12 +12,13 @@ function App(): JSX.Element {
       <Switch>
         {/* <Route path="/editor" exact component={Editor} />
         <Route path="/editor/:slug" exact component={Editor} />
-        <Route path="/login" exact component={LoginRegister} />
+      
         <Route path="/logout" exact component={Logout} />
         
         <Route path="/profile/:username/favorites" exact component={Profile} />
         <Route path="/register" exact component={LoginRegister} />
         <Route path="/settings" exact component={Settings} /> */}
+        <Route path="/login" exact component={LoginForm} />
         <Route path="/settings" exact component={Profile} />
         <Route path="/profile/:username" exact component={AuthorProfilePage} />
         <Route path="/:slug" exact component={ArticleDetailsPage} />

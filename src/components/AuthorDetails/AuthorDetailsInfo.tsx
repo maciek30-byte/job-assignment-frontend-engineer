@@ -9,7 +9,6 @@ interface AuthorInfoProps {
 }
 
 export const AuthorDetailsInfo = ({ username, image, bio }: AuthorInfoProps): JSX.Element => {
-    console.log("this is my username", username), image, bio
     return (
         <div className="user-info">
             <div className="container">

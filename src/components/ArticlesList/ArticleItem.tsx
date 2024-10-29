@@ -11,23 +11,19 @@ interface ArticleItemProps {
     favoritesCount: number;
     createdAt: string;
 }
-
 export const ArticleItem = ({
     slug,
     title,
     description,
     img,
     author,
-    favoritesCount,
-    createdAt
+    createdAt,
 }: ArticleItemProps): JSX.Element => {
     const history = useHistory();
 
     const handleArticleClick = () => {
         history.push(`/${slug}`);
     };
-
-    //@TODO think about this as a utils//
 
     const handleAuthorClick = () => {
         history.push(`/profile/${author}`);
@@ -48,9 +44,7 @@ export const ArticleItem = ({
                     <span className="date">{formatDate(createdAt)}</span>
                 </div>
                 <div className="pull-xs-right">
-                    <button className="btn btn-sm btn-outline-primary">
-                        <i className="ion-heart"></i> {favoritesCount}
-                    </button>
+
                 </div>
             </div>
             <h1>{title}</h1>

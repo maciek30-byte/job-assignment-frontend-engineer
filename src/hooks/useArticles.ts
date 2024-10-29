@@ -1,19 +1,7 @@
 import { useInfiniteQuery, UseInfiniteQueryResult } from '@tanstack/react-query';
+import { Article } from './types';
 
-export interface Article {
-    slug: string;
-    title: string;
-    description: string;
-    body: string;
-    createdAt: string;
-    updatedAt: string;
-    author: {
-        username: string;
-        bio: string;
-        image: string;
-    };
-    favoritesCount: number;
-}
+
 
 export interface ArticlesResponse {
     articles: Article[];
