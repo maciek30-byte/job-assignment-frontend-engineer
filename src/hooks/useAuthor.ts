@@ -1,24 +1,12 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { authorApi } from "../api/author.api";
+import { QUERY_KEYS } from "../api/config";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { AuthorResponse } from "../types/author.types";
 
-export interface AuthorProfile {
-    username: string;
-    bio: string;
-    image: string;
-    following: boolean;
-}
-
-const fetchAuthor = async (username: string): Promise<{ profile: AuthorProfile }> => {
-    const response = await fetch(`http://localhost:3000/api/profiles/${username}`);
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    return response.json();
-};
-
-export const useAuthor = (username: string): UseQueryResult<{ profile: AuthorProfile }, Error> => {
+export const useAuthor = (username: string): UseQueryResult<AuthorResponse, Error> => {
     return useQuery({
-        queryKey: ['profile', username],
-        queryFn: () => fetchAuthor(username),
-        enabled: !!username,
+        queryKey: [QUERY_KEYS.profile, username],
+        queryFn: () => authorApi.getProfile(username),
+        enabled: Boolean(username),
     });
 };

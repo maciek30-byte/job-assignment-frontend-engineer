@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AuthorProfile } from '../../hooks/useAuthor';
 import { useAuth } from '../../contexts/AuthContext/AuthContext';
+import { AuthorProfile } from '../../types/author.types';
+
 interface FollowAuthorProps {
     username: string;
 }
