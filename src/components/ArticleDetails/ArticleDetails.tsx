@@ -3,10 +3,11 @@ import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArticlesResponse } from "../../hooks/useArticles";
 import { selectArticleBySlug } from "../../hooks/utils";
-import { formatDate } from "utils/date";
-import { getUserImage } from "utils/getUserImage";
-import { useRedirect } from "hooks/useRedirect";
-import { Message } from "components/shared/Message";
+import {formatDate} from "../../utils/date";
+import {useRedirect} from "../../hooks/useRedirect";
+import {Message} from "../shared/Message";
+import {getUserImage} from "../../utils/getUserImage";
+
 
 interface ArticleContentProps {
     title: string;

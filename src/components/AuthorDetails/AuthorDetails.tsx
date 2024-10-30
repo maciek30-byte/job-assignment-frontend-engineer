@@ -1,13 +1,12 @@
-import { ErrorMessage } from "components/shared/ErrorMessage";
-import { LoadingSpinner } from "components/shared/LoadingSpinner";
-import { Message } from "components/shared/Message";
+
 import { useParams } from "react-router-dom";
 import { useAuthorArticles } from "../../hooks/useAuthorArticles";
-import { Footer } from "../shared/Footer";
-import { NavBar } from "../shared/NavBar";
 import { ToggleFeed } from "../shared/ToggleFeed";
 import { AuthorArticlePreviewItem } from "./AuthorArticlePreviewItem";
 import { AuthorDetailsInfo } from "./AuthorDetailsInfo";
+import {LoadingSpinner} from "../shared/LoadingSpinner";
+import {ErrorMessage} from "../shared/ErrorMessage";
+import {Message} from "../shared/Message";
 
 export const AuthorDetails = (): JSX.Element => {
     const params = useParams<{ username: string }>();
@@ -20,34 +19,30 @@ export const AuthorDetails = (): JSX.Element => {
     const author = data.articles[0].author
 
     return (
-        <>
-            <NavBar />
-            <div className="profile-page">
-                <AuthorDetailsInfo
-                    username={author.username}
-                    image={author.image}
-                    bio={author.bio}
-                />
-                <div className="container">
-                    <div className="row">
-                        <div className="col-xs-12 col-md-10 offset-md-1">
-                            <ToggleFeed />
-                            {data.articles.map((article) => (
-                                <AuthorArticlePreviewItem
-                                    key={article.slug}
-                                    image={article.author.image}
-                                    date={article.createdAt}
-                                    title={article.title}
-                                    description={article.description}
-                                    slug={article.slug}
-                                    author={article.author.username}
-                                />
-                            ))}
-                        </div>
+        <div className="profile-page">
+            <AuthorDetailsInfo
+                username={author.username}
+                image={author.image}
+                bio={author.bio}
+            />
+            <div className="container">
+                <div className="row">
+                    <div className="col-xs-12 col-md-10 offset-md-1">
+                        <ToggleFeed />
+                        {data.articles.map((article) => (
+                            <AuthorArticlePreviewItem
+                                key={article.slug}
+                                image={article.author.image}
+                                date={article.createdAt}
+                                title={article.title}
+                                description={article.description}
+                                slug={article.slug}
+                                author={article.author.username}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
-            <Footer />
-        </>
+        </div>
     );
 };

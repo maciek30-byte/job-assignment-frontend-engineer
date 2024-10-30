@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext/AuthContext';
-import { useLoginMutation, LoginError } from '../../hooks/useLoginMutation';
-import { NavBar } from '../shared/NavBar';
-import { Footer } from '../shared/Footer';
+import { LoginError, useLoginMutation } from '../../hooks/useLoginMutation';
 import { useRedirect } from '../../hooks/useRedirect';
 import { FormField } from './FormField';
 
@@ -26,7 +24,6 @@ export default function LoginForm(): JSX.Element {
         } catch (error: unknown) {
             if (error && typeof error === 'object' && 'errors' in error) {
                 const loginError = error as LoginError;
-                // Sprawdzamy różne możliwe formaty błędów autoryzacji
                 if (loginError.errors['email or password'] ||
                     loginError.errors['unauthorized'] ||
                     (loginError.errors['email'] && loginError.errors['password'])) {
@@ -44,57 +41,53 @@ export default function LoginForm(): JSX.Element {
     };
 
     return (
-        <>
-            <NavBar />
-            <div className="auth-page">
-                <div className="container page">
-                    <div className="row">
-                        <div className="col-md-6 offset-md-3 col-xs-12">
-                            <h1 className="text-xs-center">Sign in</h1>
-                            <p className="text-xs-center">
-                                <a href="/#/register">Need an account?</a>
-                            </p>
+        <div className="auth-page">
+            <div className="container page">
+                <div className="row">
+                    <div className="col-md-6 offset-md-3 col-xs-12">
+                        <h1 className="text-xs-center">Sign in</h1>
+                        <p className="text-xs-center">
+                            <a href="/#/register">Need an account?</a>
+                        </p>
 
-                            {errorMessage && (
-                                <ul className="error-messages">
-                                    <li>{errorMessage}</li>
-                                </ul>
-                            )}
+                        {errorMessage && (
+                            <ul className="error-messages">
+                                <li>{errorMessage}</li>
+                            </ul>
+                        )}
 
-                            <form onSubmit={handleSubmit}>
-                                <fieldset disabled={loginMutation.isLoading}>
-                                    <FormField
-                                        label="Email"
-                                        name="email"
-                                        type="email"
-                                        placeholder="Email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                    />
-                                    <FormField
-                                        label="Password"
-                                        name="password"
-                                        type="password"
-                                        placeholder="Password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                    />
-                                    <button
-                                        className="btn btn-lg btn-primary pull-xs-right"
-                                        type="submit"
-                                        disabled={loginMutation.isLoading}
-                                    >
-                                        {loginMutation.isLoading ? 'Signing in...' : 'Sign in'}
-                                    </button>
-                                </fieldset>
-                            </form>
-                        </div>
+                        <form onSubmit={handleSubmit}>
+                            <fieldset disabled={loginMutation.isLoading}>
+                                <FormField
+                                    label="Email"
+                                    name="email"
+                                    type="email"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                                <FormField
+                                    label="Password"
+                                    name="password"
+                                    type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                                <button
+                                    className="btn btn-lg btn-primary pull-xs-right"
+                                    type="submit"
+                                    disabled={loginMutation.isLoading}
+                                >
+                                    {loginMutation.isLoading ? 'Signing in...' : 'Sign in'}
+                                </button>
+                            </fieldset>
+                        </form>
                     </div>
                 </div>
             </div>
-            <Footer />
-        </>
+        </div>
     );
 }

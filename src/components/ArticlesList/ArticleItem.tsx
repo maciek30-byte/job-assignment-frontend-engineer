@@ -1,7 +1,8 @@
 import { formatDate } from '../../utils/date';
-import { getUserImage } from 'utils/getUserImage';
-import { useRedirect } from 'hooks/useRedirect';
+
 import { FavoriteCounterButton } from '../EngagmentButtons/FavoriteCounterButton';
+import {getUserImage} from "../../utils/getUserImage";
+import {useRedirect} from "../../hooks/useRedirect";
 
 interface ArticleItemProps {
     slug: string;
