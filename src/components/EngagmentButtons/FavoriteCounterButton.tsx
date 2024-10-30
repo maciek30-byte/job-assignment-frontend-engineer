@@ -40,7 +40,6 @@ export const FavoriteCounterButton = ({
             return response.json();
         },
         onSuccess: (data) => {
-            // Aktualizuj cache na podstawie odpowiedzi z serwera
             queryClient.setQueryData(['articles'], (oldData: any) => {
                 if (!oldData) return;
 

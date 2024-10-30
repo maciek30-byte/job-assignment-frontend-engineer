@@ -5,9 +5,6 @@ export interface AuthorProfile {
     following: boolean;
 }
 
-
-
-
 export interface AuthorResponse {
     profile: AuthorProfile;
 }

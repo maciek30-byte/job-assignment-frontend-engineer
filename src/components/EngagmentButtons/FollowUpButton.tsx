@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../../contexts/AuthContext/AuthContext';
-import { AuthorProfile } from '../../types/author.types';
+import { AuthorProfile } from '../../hooks/author.types';
 
 interface FollowAuthorProps {
     username: string;
@@ -10,7 +10,6 @@ export const FollowAuthorButton = ({ username }: FollowAuthorProps): JSX.Element
     const queryClient = useQueryClient();
     const { user } = useAuth();
 
-    // Pobieramy aktualne dane autora z cache'u
     const authorData = queryClient.getQueryData<{ profile: AuthorProfile }>(['profile', username]);
     const isFollowed = authorData?.profile.following ?? false;
 
@@ -36,7 +35,6 @@ export const FollowAuthorButton = ({ username }: FollowAuthorProps): JSX.Element
             return response.json();
         },
         onSuccess: (data) => {
-            // Aktualizujemy cache profilu autora
             queryClient.setQueryData(['profile', username], data);
         },
         onError: (error) => {
